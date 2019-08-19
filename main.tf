@@ -5,6 +5,9 @@ provider "google" {}
 data "google_client_config" "default" {}
 
 resource "null_resource" "kubeconfig" {
+  triggers = {
+    timestamp = timestamp()
+  }
 
   provisioner "local-exec" {
     environment = {
