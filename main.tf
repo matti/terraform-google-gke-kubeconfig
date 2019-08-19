@@ -18,7 +18,7 @@ resource "null_resource" "kubeconfig" {
   }
 }
 
-resource "kubernetes_role_binding" "gke-kube-system-sa-cluster-admin" {
+resource "kubernetes_cluster_role_binding" "gke-kube-system-sa-cluster-admin" {
   depends_on = [null_resource.kubeconfig]
 
   metadata {
