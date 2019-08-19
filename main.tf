@@ -11,7 +11,7 @@ resource "null_resource" "kubeconfig" {
 
   provisioner "local-exec" {
     environment = {
-      KUBECONFIG = kubeconfig
+      KUBECONFIG = var.kubeconfig
     }
     command = "gcloud beta container clusters get-credentials ${var.cluster.name} --region ${var.cluster.location} --project ${data.google_client_config.default.project}"
   }
