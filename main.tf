@@ -11,6 +11,11 @@ resource "null_resource" "kubeconfig" {
     }
     command = "gcloud beta container clusters get-credentials ${var.cluster.name} --region ${var.cluster.location} --project ${data.google_client_config.default.project}"
   }
+
+  provisioner "local-exec" {
+    when    = "destroy"
+    command = "rm ${var.kubeconfig}"
+  }
 }
 
 resource "kubernetes_role_binding" "gke-kube-system-sa-cluster-admin" {
