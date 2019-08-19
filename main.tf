@@ -5,10 +5,6 @@ provider "google" {}
 data "google_client_config" "default" {}
 
 resource "null_resource" "kubeconfig" {
-  triggers = {
-    timestamp = timestamp()
-  }
-
   provisioner "local-exec" {
     environment = {
       KUBECONFIG = var.kubeconfig
@@ -19,10 +15,6 @@ resource "null_resource" "kubeconfig" {
 
 resource "kubernetes_role_binding" "gke-kube-system-sa-cluster-admin" {
   depends_on = [null_resource.kubeconfig]
-
-  triggers = {
-    timestamp = timestamp()
-  }
 
   metadata {
     name = "gke-kube-system-sa-cluster-admin"
