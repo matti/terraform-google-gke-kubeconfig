@@ -17,27 +17,3 @@ resource "null_resource" "kubeconfig" {
     command = "rm ${var.kubeconfig}"
   }
 }
-
-provider "kubernetes" {
-  config_path = var.kubeconfig
-}
-
-resource "kubernetes_cluster_role_binding" "gke-kube-system-sa-cluster-admin" {
-  depends_on = [null_resource.kubeconfig]
-
-  metadata {
-    name = "gke-kube-system-sa-cluster-admin"
-  }
-
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = "cluster-admin"
-  }
-
-  subject {
-    kind      = "ServiceAccount"
-    name      = "default"
-    namespace = "kube-system"
-  }
-}
