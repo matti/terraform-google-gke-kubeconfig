@@ -17,3 +17,7 @@ resource "null_resource" "kubeconfig" {
     command = "rm ${var.kubeconfig}"
   }
 }
+
+output "kubeconfig" {
+  value = var.kubeconfig
+}
