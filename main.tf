@@ -21,8 +21,9 @@ resource "null_resource" "kubeconfig" {
   }
 
   provisioner "local-exec" {
-    when    = "destroy"
-    command = "rm ${var.kubeconfig}"
+    when       = "destroy"
+    command    = "rm ${var.kubeconfig}"
+    on_failure = "continue"
   }
 }
 
