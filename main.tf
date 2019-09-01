@@ -1,3 +1,4 @@
+variable "project" {}
 variable "cluster" {}
 variable "kubeconfig" {}
 variable "refresh" {
@@ -5,7 +6,7 @@ variable "refresh" {
 }
 
 provider "google" {}
-data "google_client_config" "default" {}
+
 
 resource "null_resource" "kubeconfig" {
   triggers = {
@@ -16,7 +17,7 @@ resource "null_resource" "kubeconfig" {
     environment = {
       KUBECONFIG = var.kubeconfig
     }
-    command = "gcloud beta container clusters get-credentials ${var.cluster.name} --region ${var.cluster.location} --project ${data.google_client_config.default.project}"
+    command = "gcloud beta container clusters get-credentials ${var.cluster.name} --region ${var.cluster.location} --project ${var.project}"
   }
 
   provisioner "local-exec" {
