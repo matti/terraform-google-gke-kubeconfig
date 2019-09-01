@@ -1,10 +1,17 @@
 variable "cluster" {}
 variable "kubeconfig" {}
+variable "refresh" {
+  default = ""
+}
 
 provider "google" {}
 data "google_client_config" "default" {}
 
 resource "null_resource" "kubeconfig" {
+  triggers = {
+    refresh = var.refresh
+  }
+
   provisioner "local-exec" {
     environment = {
       KUBECONFIG = var.kubeconfig
