@@ -1,8 +1,9 @@
+variable "cluster" {}
+variable "kubeconfig" {}
+
 variable "project" {
   default = null
 }
-variable "cluster" {}
-variable "kubeconfig" {}
 variable "refresh" {
   default = ""
 }
@@ -17,7 +18,8 @@ locals {
 
 resource "null_resource" "kubeconfig" {
   triggers = {
-    refresh = var.refresh
+    refresh    = var.refresh
+    kubeconfig = var.kubeconfig
   }
 
   provisioner "local-exec" {
@@ -28,9 +30,9 @@ resource "null_resource" "kubeconfig" {
   }
 
   provisioner "local-exec" {
-    when       = "destroy"
-    command    = "rm ${var.kubeconfig}"
-    on_failure = "continue"
+    when       = destroy
+    command    = "rm ${self.triggers.kubeconfig}"
+    on_failure = continue
   }
 }
 
