@@ -5,7 +5,11 @@ variable "project" {
   default = null
 }
 variable "refresh" {
-  default = ""
+  default = null
+}
+
+locals {
+  refresh = var.refresh == null ? "" : var.refresh
 }
 
 provider "google" {}
